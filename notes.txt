@@ -1,0 +1,2 @@
+for download any libray when use work laptop:
+pip install --proxy=http://10.24.63.193:8080 library

@@ -1,0 +1,63 @@
+{
+  "window": {
+    "caption": "game",
+    "width": 640,
+    "height": 400
+  },
+
+  "actor": {
+    "sprite": {
+      "hero": "./asserts/hero/sprite_sheet.png"
+    },
+    "size": {
+      "width": {
+        "hero": 24
+      },
+      "height": {
+        "hero": 32
+      }
+    },
+    "speed": {
+      "hero": 5
+    },
+    "delay": {
+      "hero": 200
+    },
+    "direction": {}
+  },
+  "hero": {
+    "sprite": "./asserts/hero/sprite_sheet.png",
+    "size": {
+      "width": 24,
+      "height": 32
+    },
+    "speed": 5,
+    "delay": 200,
+    "direction": {
+      "direction_top": {
+      }
+    },
+    "state": {
+      "right_idle": {
+        "row": 2,
+        "start": 0,
+        "count": 4
+      },
+      "right_run": {
+        "row": 2,
+        "start": 8,
+        "count": 4
+      },
+      "left_idle": {
+        "row": 2,
+        "start": 0,
+        "count": 4
+      },
+      "left_run": {
+        "row": 2,
+        "start": 8,
+        "count": 4
+      }
+    }
+  }
+}
