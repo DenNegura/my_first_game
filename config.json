@@ -4,8 +4,7 @@
     "width": 640,
     "height": 400
   },
-
-  "actor": {
+  "tile": {
     "sprite": {
       "hero": "./asserts/hero/sprite_sheet.png"
     },
@@ -23,7 +22,9 @@
     "delay": {
       "hero": 200
     },
-    "direction": {}
+    "direction": {},
+    "actor": {
+    }
   },
   "hero": {
     "sprite": "./asserts/hero/sprite_sheet.png",

@@ -10,10 +10,6 @@ class Hero(Actor, Sprite):
 
     NAME = "hero"
 
-    SPRITE_PATH = ("hero", "sprite")
-
-    SIZE = (("hero", "size", "width"), ("hero", "size", "height"))
-
     DELAY = ("hero", "delay")
 
     DIRECTION = ("top", "right", "down", "left")
@@ -33,8 +29,8 @@ class Hero(Actor, Sprite):
 
     def _read_properties(self):
         self._settings = Settings()
-        self._sprite_path = self._settings.get(self.SPRITE_PATH)
-        self._size = self._settings.get(self.SIZE)
+        self._sprite_path = self._settings.get(self.sprite())
+        self._size = self._settings.get(self.size())
         self._delay = self._settings.get(self.DELAY)
 
     def _load_tiles(self):

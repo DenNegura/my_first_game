@@ -1,7 +1,6 @@
+from tile import Tile
+
 class Actor(Tile):
 
     def __init__(self, name: str):
-        self._name = name
-
-    def get_name(self):
-        return self._name
+        super().__init__(name)
