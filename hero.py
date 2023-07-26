@@ -8,10 +8,8 @@ from sprite_sheet import SpriteSheet
 
 class Hero(Actor, Sprite):
 
-    NAME = "hero"
-
-    def __init__(self):
-        super(Hero, self).__init__(Settings(), self.NAME)
+    def __init__(self, name):
+        super(Hero, self).__init__(Settings(), name)
         Sprite.__init__(self)
         self._frame = 0
         self._timer = 0
@@ -26,11 +24,11 @@ class Hero(Actor, Sprite):
         if self._timer > self._delay:
             self._timer = 0
             self._frame += 1
-            return self._sheet.get_tile(2, self._frame % 12)
-        return self._sheet.get_tile(2, self._frame % 12)
+            return self._sheet.get_tile(0, self._frame % 12)
+        return self._sheet.get_tile(0, self._frame % 12)
 
 
-hero = Hero()
+hero = Hero("hero")
 
 screen = pygame.display.set_mode((800, 600))
 running = True
