@@ -1,8 +1,5 @@
 import pygame
 
-from tile import Tile
-
-
 class SpriteSheet:
 
     def __init__(self, sprite_list: pygame.Surface | str, tile_size: tuple):

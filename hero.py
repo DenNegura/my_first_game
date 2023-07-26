@@ -10,28 +10,12 @@ class Hero(Actor, Sprite):
 
     NAME = "hero"
 
-    DELAY = ("hero", "delay")
-
-    DIRECTION = ("top", "right", "down", "left")
-
-    STATE = ("idle", "walk", "run")
-
-    DETAIL = ("row", "start", "count")
-
     def __init__(self):
-        super(Hero, self).__init__(self.NAME)
+        super(Hero, self).__init__(Settings(), self.NAME)
         Sprite.__init__(self)
-        self._read_properties()
-        self._sheet = SpriteSheet(self._sprite_path, self._size)
         self._frame = 0
         self._timer = 0
         self._load_tiles()
-
-    def _read_properties(self):
-        self._settings = Settings()
-        self._sprite_path = self._settings.get(self.sprite())
-        self._size = self._settings.get(self.size())
-        self._delay = self._settings.get(self.DELAY)
 
     def _load_tiles(self):
         pass
@@ -42,8 +26,8 @@ class Hero(Actor, Sprite):
         if self._timer > self._delay:
             self._timer = 0
             self._frame += 1
-            return self._sheet.get_tile(2, self._frame % 8)
-        return self._sheet.get_tile(2, self._frame % 8)
+            return self._sheet.get_tile(2, self._frame % 12)
+        return self._sheet.get_tile(2, self._frame % 12)
 
 
 hero = Hero()

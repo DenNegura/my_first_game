@@ -22,9 +22,7 @@
     "delay": {
       "hero": 200
     },
-    "direction": {},
-    "actor": {
-    }
+    "direction": {}
   },
   "hero": {
     "sprite": "./asserts/hero/sprite_sheet.png",
