@@ -13,13 +13,13 @@ class Settings:
         WINDOW_SIZE = ("window", "size")
 
     class Tile:
-        SPRITE = ("tile", "sprite")
+        SPRITE = "sprite"
 
-        SIZE = ("tile", "size")
+        SIZE = "size"
 
-        DELAY = ("tile", "delay")
+        DELAY = "delay"
 
-        SPRITE_POSITION = ("tile", "position")
+        SPRITE_POSITION = "position"
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -38,7 +38,7 @@ class Settings:
         except JSONDecodeError as e:
             raise ConfigJSONException(e.msg)
 
-    def get(self, *args) -> tuple:
+    def get(self, *args):
         args = self._flatten_box(args)
         config = self._config
         try:

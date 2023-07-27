@@ -8,7 +8,7 @@ class SpriteSheet:
             self._sheet = pygame.image.load(sprite_list)
         self._tile_size = tile_size
 
-    def get_tile(self, row: int, col: int):
+    def get_tile(self, row: int, col: int) -> pygame.Surface:
         x = col * self._tile_size[0]
         y = row * self._tile_size[1]
         rect = pygame.Rect(x, y, self._tile_size[0], self._tile_size[1])

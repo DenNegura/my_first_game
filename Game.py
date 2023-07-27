@@ -36,7 +36,7 @@ class Game:
         self.on_init()
 
         tiles = SpriteSheet("./asserts/tiles_img.png", (32, 32))
-        hero = Hero()
+        hero = Hero("hero")
         # sprites = pygame.sprite.Group(hero.idle(10))
         clock = pygame.time.Clock()
         while self._running:
