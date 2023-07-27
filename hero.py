@@ -1,9 +1,7 @@
 import pygame
-from pygame.sprite import Sprite
-
 from actor import Actor
+from pygame.sprite import Sprite
 from settings import Settings
-from sprite_sheet import SpriteSheet
 
 
 class Hero(Actor, Sprite):
@@ -17,7 +15,6 @@ class Hero(Actor, Sprite):
 
     def _load_tiles(self):
         pass
-
 
     def idle(self, time):
         self._timer += time

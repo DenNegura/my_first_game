@@ -19,17 +19,22 @@ class Actor(Tile):
 
         RUN = 3
 
-    SIDE = ["top", "right", "left", "bottom"]
+    SIDES = ["top", "right", "left", "bottom"]
 
-    DIRECTION = ["idle", "walk", "run"]
+    DIRECTIONS = ["idle", "walk", "run"]
 
-    PATH = [["actor", "direction", "", "state", "", "position", "row"],
-            ["actor", "direction", "", "state", "", "position", "col"]]
+    ACTOR = "actor"
 
     def __init__(self, settings: Settings, name: str):
         super().__init__(settings, name)
 
         self._tiles = {}
+        self._init_tiles()
 
     def _init_tiles(self):
-        pass
+        for side in self.SIDES:
+            for direction in self.DIRECTIONS:
+                self._tiles[side] = {direction: self.ACTOR}
+
+actor = Actor(Settings(), "hero")
+print(actor._tiles)
