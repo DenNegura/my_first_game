@@ -9,6 +9,8 @@ class Settings:
 
     CONFIG_PATH = "./config.json"
 
+    LINK = "@"
+
     class Window:
         WINDOW_SIZE = ("window", "size")
 
@@ -20,6 +22,11 @@ class Settings:
         DELAY = "delay"
 
         SPRITE_POSITION = "position"
+
+    class Actor:
+        SPEED = "speed"
+
+        STATE = "state"
 
     def __new__(cls, *args, **kwargs):
         if cls._instance is None:
@@ -44,6 +51,8 @@ class Settings:
         try:
             for constant in args:
                 config = config[constant]
+            if isinstance(config, list) and config[0] == Settings.LINK:
+                config = self.get(*config[1:])
             return config
         except KeyError as e:
             raise ConfigKeyException(e.args[0])
@@ -51,7 +60,6 @@ class Settings:
     @staticmethod
     def _flatten_box(box):
         _box = []
-
         def flatten(item):
             if isinstance(item, tuple):
                 for sub_item in item:
@@ -61,31 +69,4 @@ class Settings:
 
         flatten(box)
         return tuple(_box)
-
-    # def _get_constant(self, args) -> tuple:
-    #     config = self._config
-    #     try:
-    #         for constant in args:
-    #             config = config[constant]
-    #         return config
-    #     except KeyError as e:
-    #         raise ConfigKeyException(e.args[0])
-
-    # def _get_tuple_constants(self, args_list) -> tuple:
-    #     constants = []
-    #     for args in args_list:
-    #         constants.append(self._get_constant(args))
-    #     return tuple(constants)
-    #
-    # def _create_path(path: tuple | list, property: str) -> tuple:
-    #     _path = []
-    #     if type(path[0]) == tuple or type(path[0]) == list:
-    #         for part_path in path:
-    #             _part_path = list(part_path)
-    #             _part_path.append(property)
-    #             _path.append(_part_path)
-    #     else:
-    #         _path = list(path)
-    #         _path.append(property)
-    #     return tuple(_path)
 

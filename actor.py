@@ -1,62 +1,76 @@
+import direction
+import pygame
+import state
 from settings import Settings
 from sprite_sheet import SpriteSheet
 from tile import Tile
 
 
-class Actor(Tile):
-    class Direction:
-        def __init__(self, direction: str):
-            self._direction = direction
+class Actor(Tile, pygame.sprite.Sprite):
 
-        def get(self):
-            return self._direction
-
-    TOP = Direction("top")
-
-    RIGHT = Direction("right")
-
-    LEFT = Direction("left")
-
-    BOTTOM = Direction("bottom")
-
-    _DIRECTIONS = [TOP, RIGHT, LEFT, BOTTOM]
-
-    class State:
-        def __init__(self, state: str):
-            self._state = state
-
-        def get(self):
-            return self._state
-
-    IDLE = State("idle")
-
-    WALK = State("walk")
-
-    RUN = State("run")
-
-    _STATES = [IDLE, WALK, RUN]
-
-    def __init__(self, settings: Settings, name: str):
+    def __init__(self, name: str, settings: Settings, position: tuple | list):
         super().__init__(settings, name)
+        pygame.sprite.Sprite.__init__(self)
         self._sheet = SpriteSheet(self._sprite_path, self._size)
+        self.image = self._init_state()
+        self.rect = self.image.get_rect()
+        self.rect.x, self.rect.y = position
         self._tile_dict = self._init_tiles()
+        self._speed_dict = self._read_speed()
+        self._use_tile_set = self.get_tile_set(direction.BOTTOM, state.IDLE)
+        self._frame = 0
+        self._update_time = 0
 
-    def _init_tiles(self):
+    def update(self):
+        ticks = pygame.time.get_ticks()
+        if ticks - self._delay > self._update_time:
+            self._update_time = ticks
+            self._frame += 1
+            if self._frame == len(self._use_tile_set):
+                self._frame = 0
+            self.image = self._use_tile_set[self._frame]
+            x, y = self.rect.x, self.rect.y
+            self.rect = self.image.get_rect()
+            self.rect.x, self.rect.y = x, y
+            self.move(self._direction, self._state)
+
+    def _init_state(self) -> pygame.Surface:
+        init_state = self._settings.get(self._name, self._settings.Actor.STATE)
+        return self._sheet.get_tile(*init_state)
+
+    def _read_speed(self) -> dict[int]:
+        speed = {}
+        for _state in state.STATES:
+            speed[_state] = self._settings.get(self._name, self._settings.Actor.SPEED, _state.get())
+        return speed
+
+    def _init_tiles(self) -> dict:
         _tile_dict = {}
-        for direction in self._DIRECTIONS:
+        for _direction in direction.DIRECTIONS:
             direction_dict = {}
-            for state in self._STATES:
-                direction_dict[state.get()] = self._read_tiles(direction, state)
-            _tile_dict[direction.get()] = direction_dict
+            for _state in state.STATES:
+                direction_dict[_state] = self._read_tiles(_direction, _state)
+            _tile_dict[_direction] = direction_dict
         return _tile_dict
 
-    def _read_tiles(self, direction: Direction, state: State):
+    def _read_tiles(self, direction: direction.Direction, state: state.State):
         tiles_coords = self._settings.get(self.get_name(), direction.get(), state.get())
         return [self._sheet.get_tile(row, col) for row, col in tiles_coords]
 
-    def get_tile(self, direction: Direction, state: State, index):
-        return self._tile_dict[direction.get()][state.get()][index]
+    def set_position(self, coords):
+        self.rect.x, self.rect.y = coords
 
+    def move(self, direction: direction.Direction, state: state.State):
+        self.set_position(direction.change(self.rect.x, self.rect.y, self._speed_dict[state]))
 
-# actor = Actor(Settings(), "hero")
-# print(actor.get_tile(actor.LEFT, actor.RUN, 0))
+    def get_directions(self) -> tuple[direction.Direction]:
+        return tuple(self._tile_dict.keys())
+
+    def get_states(self, direction: direction.Direction) -> tuple[state.State]:
+        return tuple(self._tile_dict[direction].keys())
+
+    def get_tile(self, direction: direction.Direction, state: state.State, index):
+        return self.get_tile_set(direction, state)[index]
+
+    def get_tile_set(self, direction: direction.Direction, state: state.State) -> list[pygame.Surface]:
+        return self._tile_dict[direction][state]
