@@ -1,11 +1,9 @@
 import pygame
-from pygame.sprite import Sprite
 
-from actor import Actor
-from settings import Settings
-import random
 import direction
 import state
+from actor import Actor
+from settings import Settings
 
 
 class Player(Actor):
@@ -30,7 +28,7 @@ class Player(Actor):
     def listen_keys(self):
         keys = pygame.key.get_pressed()
         _state = state.IDLE
-        _direciton = self._direction
+        _direction = self._direction
 
         if keys[pygame.K_w] or keys[pygame.K_d] \
                 or keys[pygame.K_a] or keys[pygame.K_s]:
@@ -40,24 +38,25 @@ class Player(Actor):
                 _state = state.WALK
         if keys[pygame.K_w]:
             if keys[pygame.K_d]:
-                _direciton = direction.TOP_RIGHT
+                _direction = direction.TOP_RIGHT
             elif keys[pygame.K_a]:
-                _direciton = direction.TOP_LEFT
+                _direction = direction.TOP_LEFT
             else:
-                _direciton = direction.TOP
+                _direction = direction.TOP
         elif keys[pygame.K_s]:
             if keys[pygame.K_d]:
-                _direciton = direction.BOTTOM_RIGHT
+                _direction = direction.BOTTOM_RIGHT
             elif keys[pygame.K_a]:
-                _direciton = direction.BOTTOM_LEFT
+                _direction = direction.BOTTOM_LEFT
             else:
-                _direciton = direction.BOTTOM
+                _direction = direction.BOTTOM
         elif keys[pygame.K_d]:
-            _direciton = direction.RIGHT
+            _direction = direction.RIGHT
         elif keys[pygame.K_a]:
-            _direciton = direction.LEFT
+            _direction = direction.LEFT
 
-        self.change_state(_direciton, _state)
+        self.change_state(_direction, _state)
+
 
 hero = Player("player", (200, 200), direction.RIGHT, state.IDLE)
 all_sprites = pygame.sprite.Group()
@@ -74,7 +73,7 @@ running = True
 clock = pygame.time.Clock()  # Создаем объект для отслеживания времени
 
 while running:
-      # Ограничиваем FPS до 60 и получаем прошедшее время с момента последнего вызова clock.tick()
+    # Ограничиваем FPS до 60 и получаем прошедшее время с момента последнего вызова clock.tick()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
