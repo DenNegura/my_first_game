@@ -74,3 +74,4 @@ class Actor(Tile, pygame.sprite.Sprite):
 
     def get_tile_set(self, direction: direction.Direction, state: state.State) -> list[pygame.Surface]:
         return self._tile_dict[direction][state]
+

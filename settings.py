@@ -11,6 +11,13 @@ class Settings:
 
     LINK = "@"
 
+    class MapBuilder:
+        NAME = "map_builder"
+
+        CAPTION = (NAME, "caption")
+
+        WINDOW_SIZE = (NAME, "size")
+
     class Window:
         WINDOW_SIZE = ("window", "size")
 
@@ -63,6 +70,7 @@ class Settings:
     @staticmethod
     def _flatten_box(box):
         _box = []
+
         def flatten(item):
             if isinstance(item, tuple):
                 for sub_item in item:
@@ -72,4 +80,3 @@ class Settings:
 
         flatten(box)
         return tuple(_box)
-

@@ -75,20 +75,35 @@ running = True
 clock = pygame.time.Clock()  # Создаем объект для отслеживания времени
 
 sheet = SpriteSheet("./asserts/tiles_img.png", (32, 32))
-obj = sheet.get_tile(16, 3)
+
+class MySprite(pygame.sprite.Sprite):
+    def __init__(self, x, y):
+        super().__init__()
+        self.image = sheet.get_tile(2, 3)
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+obj = MySprite(300, 200)
+
 static_sprites = pygame.sprite.Group()
-# static_sprites.add(obj)
+static_sprites.add(obj)
 def create_background():
     size = 32
     for x in range(0, 800, size):
         for y in range(0, 600, size):
             screen.blit(sheet.get_tile(3, 6), (x, y))
-
+speed = hero._speed_dict[state.WALK]
 while running:
     # Ограничиваем FPS до 60 и получаем прошедшее время с момента последнего вызова clock.tick()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+    if hero.rect.colliderect(obj):
+        hero._speed_dict[state.WALK] = 0
+    else:
+        hero._speed_dict[state.WALK] = speed
+
     hero.listen_keys()
     # for hero_i in hero_list:
     #     hero_i.listen_keys()
@@ -96,9 +111,11 @@ while running:
     # hero_tile = hero.idle(dt)
     create_background()
     all_sprites.draw(screen)
+    static_sprites.draw(screen)
 
-    screen.blit(obj, (400, 400))
     all_sprites.update()
+    static_sprites.update()
+
     # Отрисовываем текущий тайл анимации героя на экране
     # screen.blit(hero_tile, (100, 100))
     pygame.display.flip()

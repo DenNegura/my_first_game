@@ -1,4 +1,8 @@
 {
+  "map_builder": {
+    "caption": "Map builder",
+    "size": [600, 800]
+  },
   "window": {
     "caption": "game",
     "size": [640, 400]
@@ -125,5 +129,10 @@
       "walk": ["@", "player", "left", "walk"],
       "run": ["@", "player", "left", "run"]
     }
+  },
+  "map": {
+    "tile": [
+
+    ]
   }
 }

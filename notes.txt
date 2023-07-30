@@ -1,2 +1,11 @@
 for download any libray when use work laptop:
 pip install --proxy=http://10.24.63.193:8080 library
+
+
+
+
+1. id тайла
+2. координаты
+3. коллизии
+4. размер
+5.
