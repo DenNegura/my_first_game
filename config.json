@@ -3,16 +3,23 @@
     "caption": "game",
     "size": [640, 400]
   },
-  "hero": {
+  "player": {
     "sprite": "./asserts/hero/sprite_sheet.png",
     "size": [24, 32],
+    "delay": 150,
+    "state": [0, 0],
     "speed": {
       "idle": 0,
       "walk": 5,
       "run": 10
     },
-    "delay": 150,
-    "state": [0, 0],
+    "key": {
+      "top": "K_w",
+      "right": "K_d",
+      "bottom": "K_s",
+      "left": "K_a",
+      "run": "K_LSHIFT"
+    },
     "top": {
       "idle": [
         [1, 0],
@@ -94,24 +101,24 @@
       ]
     },
     "top_right": {
-      "idle": ["@", "hero", "right", "idle"],
-      "walk": ["@", "hero", "right", "walk"],
-      "run": ["@", "hero", "right", "run"]
+      "idle": ["@", "player", "right", "idle"],
+      "walk": ["@", "player", "right", "walk"],
+      "run": ["@", "player", "right", "run"]
     },
     "top_left": {
-      "idle": ["@", "hero", "left", "idle"],
-      "walk": ["@", "hero", "left", "walk"],
-      "run": ["@", "hero", "left", "run"]
+      "idle": ["@", "player", "left", "idle"],
+      "walk": ["@", "player", "left", "walk"],
+      "run": ["@", "player", "left", "run"]
     },
     "bottom_right": {
-      "idle": ["@", "hero", "right", "idle"],
-      "walk": ["@", "hero", "right", "walk"],
-      "run": ["@", "hero", "right", "run"]
+      "idle": ["@", "player", "right", "idle"],
+      "walk": ["@", "player", "right", "walk"],
+      "run": ["@", "player", "right", "run"]
     },
     "bottom_left": {
-      "idle": ["@", "hero", "left", "idle"],
-      "walk": ["@", "hero", "left", "walk"],
-      "run": ["@", "hero", "left", "run"]
+      "idle": ["@", "player", "left", "idle"],
+      "walk": ["@", "player", "left", "walk"],
+      "run": ["@", "player", "left", "run"]
     }
   }
 }

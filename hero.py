@@ -8,13 +8,16 @@ import direction
 import state
 
 
-class Hero(Actor):
+class Player(Actor):
 
-    def __init__(self, name, position):
+    def __init__(self, name: str,
+                 position: tuple[int, int] | list[int, int],
+                 direction: direction.Direction, state: state.State):
+
         super().__init__(name, Settings(), position)
-        self._use_tile_set = self.get_tile_set(direction.BOTTOM, state.IDLE)
-        self._direction = direction.BOTTOM
-        self._state = state.IDLE
+        self._use_tile_set = self.get_tile_set(direction, state)
+        self._direction = direction
+        self._state = state
 
     def change_state(self, direction: direction.Direction, state: state.State):
         self._direction = direction
@@ -26,7 +29,6 @@ class Hero(Actor):
 
     def listen_keys(self):
         keys = pygame.key.get_pressed()
-
         _state = state.IDLE
         _direciton = self._direction
 
@@ -57,7 +59,7 @@ class Hero(Actor):
 
         self.change_state(_direciton, _state)
 
-hero = Hero("hero", (200, 200))
+hero = Player("player", (200, 200), direction.RIGHT, state.IDLE)
 all_sprites = pygame.sprite.Group()
 all_sprites.add(hero)
 
