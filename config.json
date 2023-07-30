@@ -3,10 +3,15 @@
     "caption": "game",
     "size": [640, 400]
   },
+  "earth": {
+    "sprite": "./asserts/tiles_img.png",
+    "size": [32, 32],
+    "state": [3, 6]
+  },
   "player": {
     "sprite": "./asserts/hero/sprite_sheet.png",
     "size": [24, 32],
-    "delay": 150,
+    "delay": 100,
     "state": [0, 0],
     "speed": {
       "idle": 0,

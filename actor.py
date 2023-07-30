@@ -54,7 +54,7 @@ class Actor(Tile, pygame.sprite.Sprite):
         return _tile_dict
 
     def _read_tiles(self, direction: direction.Direction, state: state.State):
-        tiles_coords = self._settings.get(self.get_name(), direction.get(), state.get())
+        tiles_coords = self._settings.get(self._name, direction.get(), state.get())
         return [self._sheet.get_tile(row, col) for row, col in tiles_coords]
 
     def set_position(self, coords):
