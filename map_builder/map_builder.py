@@ -25,6 +25,19 @@ class MapBuilder(tk.Tk):
         # Картинки для объединения
         self.images_to_merge = []
 
+        self.bind("<KeyPress>", self._key_press)
+
+    def _key_press(self, event):
+        if event.keysym == "plus" and event.state == 1:  # 1 означает, что Shift нажат (event.state == 1)
+            self.image = self.image.resize((self.image.width * 2, self.image.height * 2))
+            self.current_image = ImageTk.PhotoImage(self.image)
+            self.current_image_id = self.canvas.create_image(0, 0, image=self.current_image, anchor=tk.NW)
+        if event.keysym == "underscore" and event.state == 1:
+            print("state")
+            self.image = self.image.resize((int(self.image.width / 2), int(self.image.height / 2)))
+            self.current_image = ImageTk.PhotoImage(self.image)
+            self.current_image_id = self.canvas.create_image(0, 0, image=self.current_image, anchor=tk.NW)
+
     def _init_canvas(self):
         self.canvas = tk.Canvas(self, bg="white")
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
@@ -45,10 +58,11 @@ class MapBuilder(tk.Tk):
     def _load_image(self):
         file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg;*.jpeg;*.png")])
         if file_path:
-            image = Image.open(file_path)
+            self.image = Image.open(file_path)
             # image.thumbnail((100, 100))  # Масштабируем картинку для удобства
-            image = image.resize((2000, 2000))
-            self.current_image = ImageTk.PhotoImage(image)
+            # image = image.resize((2000, 2000))
+            # self.image =
+            self.current_image = ImageTk.PhotoImage(self.image)
             self.current_image_id = self.canvas.create_image(0, 0, image=self.current_image, anchor=tk.NW)
 
             self.canvas.config(scrollregion=self.canvas.bbox(tk.ALL))
