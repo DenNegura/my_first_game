@@ -4,56 +4,39 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 
-
-class ImageLabel(ttk.Label):
-    def __init__(self, master, pil_image: Image, callback, **kwargs):
-        super().__init__(master, **kwargs)
-        self._image = pil_image
-        self._callback = callback
-        self._tk_image = ImageTk.PhotoImage(self._image)
-        self.config(image=self._tk_image)
-        self.bind("<Button-1>", self._on_click)
-
-    def _on_click(self):
-        if self._callback:
-            self._callback(self._image)
+from tiles_container import TilesContainer
 
 
-class TileManager(ttk.Frame):
+class TileManager(ttk.Notebook):
 
     def __init__(self, master, **kwargs):
         super().__init__(master, **kwargs)
         self._callback = None
-        self._width = None
-        self._height = None
+        self._tile_containers = []
 
-        # for test
-        # self._width = 24
-        # self._height = 32
-        # self.load_image(image_path=['C:/Projects/python/my_first_game/asserts/hero/sprite_sheet.png'])
+    def load_image(self, path_list: tuple[str] | list[str], tile_size: tuple[int, int] | list[int, int]):
+        for path in path_list:
+            if os.path.isfile(path):
+                title = os.path.basename(path)
+                id = self._get_id_by_title(title)
+                if id is None:
+                    self._create_tab(path, title, tile_size)
+                else:
+                    self.select(id)
 
-    def set_tile_size(self, width: int, height: int):
-        self._width = width
-        self._height = height
+    def _get_id_by_title(self, title) -> int | None:
+        for id in range(self.index("end")):
+            if self.tab(id, "text") == title:
+                return id
+        return None
 
-    def load_image(self, image_path):
-        # todo нужен не список, о путь к файлу
-        image_path = image_path[0]
-        if os.path.isfile(image_path):
-            image = Image.open(image_path)
-            if self._width and self._height:
-                self._load_image(image, self._width, self._height)
+    def _create_tab(self, path, title, tile_size):
+        image = Image.open(path)
+        container = TilesContainer(self, image, tile_size, self._on_select)
+        container.pack(fill=tk.BOTH, expand=True)
+        self.add(container, text=title)
+        self._tile_containers.append(container)
+        self.select(self.index("end") - 1)
 
-    def _load_image(self, image: Image, width: int, height: int) -> None:
-        for x in range(image.width // width):
-            for y in range(image.height // height):
-                tile_image = image.crop((x * width, y * height, (x + 1) * width, (y + 1) * height))
-                label = ImageLabel(master=self, pil_image=tile_image, callback=self.on_select)
-                label.grid(row=y, column=x)
-
-    def on_select(self, callback):
-        self._callback = callback
-
-    def _on_click(self):
-        if self._callback:
-            self._callback()
+    def _on_select(self, tile):
+        pass

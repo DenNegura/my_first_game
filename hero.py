@@ -1,3 +1,5 @@
+import random
+
 import pygame
 
 import direction
@@ -65,12 +67,12 @@ all_sprites = pygame.sprite.Group()
 all_sprites.add(hero)
 
 # hero_list = []
-# for _ in range(1000):
-#     new_hero = Hero("hero", (random.randrange(801), random.randrange(601)))
+# for _ in range(20000):
+#     new_hero = Player("player", (random.randrange(1001), random.randrange(901)), direction.BOTTOM, state.IDLE)
 #     hero_list.append(new_hero)
 #     all_sprites.add(new_hero)
 
-screen = pygame.display.set_mode((800, 600))
+screen = pygame.display.set_mode((1000, 900))
 running = True
 clock = pygame.time.Clock()  # Создаем объект для отслеживания времени
 
@@ -90,8 +92,8 @@ static_sprites = pygame.sprite.Group()
 static_sprites.add(obj)
 def create_background():
     size = 32
-    for x in range(0, 800, size):
-        for y in range(0, 600, size):
+    for x in range(0, 1000, size):
+        for y in range(0, 900, size):
             screen.blit(sheet.get_tile(3, 6), (x, y))
 speed = hero._speed_dict[state.WALK]
 while running:
@@ -99,10 +101,10 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    if hero.rect.colliderect(obj):
-        hero._speed_dict[state.WALK] = 0
-    else:
-        hero._speed_dict[state.WALK] = speed
+    # if hero.rect.colliderect(obj):
+    #     hero._speed_dict[state.WALK] = 0
+    # else:
+    #     hero._speed_dict[state.WALK] = speed
 
     hero.listen_keys()
     # for hero_i in hero_list:
@@ -111,7 +113,7 @@ while running:
     # hero_tile = hero.idle(dt)
     create_background()
     all_sprites.draw(screen)
-    static_sprites.draw(screen)
+    # static_sprites.draw(screen)
 
     all_sprites.update()
     static_sprites.update()

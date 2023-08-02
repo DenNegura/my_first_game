@@ -56,7 +56,7 @@ class FileExplorer(ttk.Frame):
                 if os.path.isfile(selected_item):
                     selected_files.append(selected_item)
             if selected_files:
-                self._callback_fun(selected_files)
+                self._callback_fun(selected_files, (32, 32))
 
     def on_select(self, callback_fun):
         self._callback_fun = callback_fun
