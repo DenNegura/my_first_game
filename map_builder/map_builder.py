@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 
 from file_explorer import FileExplorer
 from grid_controller import GridController
+from tile_manager import TileManager
 
 from settings import Settings
 
@@ -21,11 +22,15 @@ class MapBuilder(tk.Tk):
 
         self._panel = tk.PanedWindow(orient=tk.HORIZONTAL)
 
+        self._tile_manager = TileManager(self)
+        self._tile_manager.set_tile_size(32, 32)
+
         self._explorer = self._init_explorer(self._panel)
         self._canvas = self._init_canvas(self._panel)
 
         self._panel.add(self._explorer)
         self._panel.add(self._canvas)
+        self._panel.add(self._tile_manager)
 
         self._panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
@@ -48,7 +53,7 @@ class MapBuilder(tk.Tk):
     def _init_explorer(self, master) -> FileExplorer:
         explorer = FileExplorer(master=master, width=200)
         explorer.set_extensions((".png", ".jpg"))
-        explorer.on_select(self._load_image)
+        explorer.on_select(self._tile_manager.load_image)
         return explorer
 
     # def _load_image(self, file_path):

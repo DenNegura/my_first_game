@@ -1,14 +1,16 @@
 import tkinter as tk
-
+from tkinter import ttk
+from PIL import Image, ImageTk
 root = tk.Tk()
+root.title("METANIT.COM")
+root.geometry("250x200")
 
-paned_window = tk.PanedWindow(orient=tk.HORIZONTAL)
-paned_window.pack(fill=tk.BOTH, expand=True)
+image = Image.open('C:/Projects/python/my_first_game/asserts/hero/sprite_sheet.png')
 
-frame1 = tk.Frame(paned_window, width=100, height=200, bg="red")
-frame2 = tk.Frame(paned_window, width=100, height=200, bg="blue")
+python_logo = ImageTk.PhotoImage(image=image)
+# python_logo = tk.PhotoImage(file="C:/Projects/python/my_first_game/asserts/hero/sprite_sheet.png")
 
-paned_window.add(frame1)
-paned_window.add(frame2)
+label = ttk.Label(image=python_logo)
+label.pack()
 
 root.mainloop()

@@ -15,13 +15,14 @@ class GridController(ttk.LabelFrame):
 
     def _init_box(self):
         for sizes in self._count_pixels:
-            rb = ttk.Radiobutton(text=lang, value=lang, variable=selected_language, command=_on_select)
+            pass
+            # rb = ttk.Radiobutton(text=lang, value=lang, variable=selected_language, command=_on_select)
 
         self._btn_grid = ttk.Button(self, text="Включить", command=self._on_click)
         self._btn_grid.pack(fill=tk.X)
 
     def _on_select(self):
-
+        pass
 
     def _on_click(self):
         if self._canvas:
