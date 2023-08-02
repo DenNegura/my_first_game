@@ -1,38 +1,40 @@
 import tkinter as tk
 
-class CanvasExample:
-    def __init__(self, master):
-        self.master = master
-        self.master.title("Canvas Example")
+class ScrollableCanvasFrame(tk.Frame):
+    def __init__(self, master, **kwargs):
+        super().__init__(master, **kwargs)
 
-        self.frame = tk.Frame(self.master)
-        self.frame.pack(fill=tk.BOTH, expand=True)
-
-        self.canvas = tk.Canvas(self.frame, bg="white")
+        self.canvas = tk.Canvas(self)
         self.canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
 
+        self.yscrollbar = tk.Scrollbar(self, orient=tk.VERTICAL, command=self.canvas.yview)
+        self.yscrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.canvas.configure(yscrollcommand=self.yscrollbar.set)
+
+        self.xscrollbar = tk.Scrollbar(self, orient=tk.HORIZONTAL, command=self.canvas.xview)
+        self.xscrollbar.pack(side=tk.BOTTOM, fill=tk.X)
+        self.canvas.configure(xscrollcommand=self.xscrollbar.set)
+
+        self.inner_frame = tk.Frame(self.canvas)
+        self.canvas.create_window((0, 0), window=self.inner_frame, anchor="nw")
+
         for i in range(100):
-            self.canvas.create_rectangle(0, i * 20, 20, (i + 1) * 20, fill="blue")
+            tk.Label(self.inner_frame, text=f"Label {i}").pack()
 
-        self.scrollbar = tk.Scrollbar(self.frame, orient=tk.VERTICAL, command=self.canvas.yview)
-        self.scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
+        self.inner_frame.bind("<Configure>", self._configure_canvas)
+        self.canvas.bind("<Configure>", self._configure_scrollregion)
 
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+    def _configure_canvas(self, event):
         self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
-        # Привязываем обработчики событий колесика мыши
-        self.canvas.bind("<MouseWheel>", self._on_mouse_wheel)
-        self.canvas.bind("<Button-4>", self._on_mouse_wheel)  # Прокрутка вверх
-        self.canvas.bind("<Button-5>", self._on_mouse_wheel)  # Прокрутка вниз
-
-    def _on_mouse_wheel(self, event):
-        # Прокрутка холста при помощи колесика мыши
-        self.canvas.yview_scroll(-1 * (event.delta // 120), "units")
+    def _configure_scrollregion(self, event):
+        self.canvas.configure(scrollregion=self.canvas.bbox("all"))
 
 def main():
     root = tk.Tk()
-    app = CanvasExample(root)
+    app = ScrollableCanvasFrame(root)
+    app.pack(fill=tk.BOTH, expand=True)
     root.mainloop()
 
-
-main()
+if __name__ == "__main__":
+    main()

@@ -16,6 +16,7 @@ class TileManager(ttk.Notebook):
 
     def load_image(self, path_list: tuple[str] | list[str], tile_size: tuple[int, int] | list[int, int]):
         for path in path_list:
+            print(path)
             if os.path.isfile(path):
                 title = os.path.basename(path)
                 id = self._get_id_by_title(title)

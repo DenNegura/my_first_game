@@ -1,7 +1,7 @@
 {
   "map_builder": {
     "caption": "Map builder",
-    "size": [900, 1000]
+    "size": [1200, 600]
   },
   "window": {
     "caption": "game",
