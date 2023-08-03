@@ -17,7 +17,8 @@ class TileManager(ttk.Notebook):
 
     def load_image(self, image_path: str):
         if os.path.isfile(image_path):
-            window = TileConfigurator(os.path.basename(image_path))
+            image = Image.open(image_path)
+            window = TileConfigurator(os.path.basename(image_path), image)
             window.set_default_size((32, 32), True)
             # title = os.path.basename(path)
             # id = self._get_id_by_title(title)
@@ -43,8 +44,7 @@ class TileManager(ttk.Notebook):
                 return id
         return None
 
-    def _create_tab(self, path, title, tile_size):
-        image = Image.open(path)
+    def _create_tab(self, image, title, tile_size):
         container = TilesContainer(self, image, tile_size, self._on_select)
         container.pack(fill=tk.BOTH, expand=True)
         self.add(container, text=title)
