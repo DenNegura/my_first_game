@@ -10,6 +10,9 @@ from map_manager import MapManager
 from tile_manager import TileManager
 
 from settings import Settings
+# import sys
+#
+# sys.path.append("./ui/input/regex")
 
 
 class GameBuilder(tk.Tk):
@@ -25,8 +28,8 @@ class GameBuilder(tk.Tk):
         self._panel = tk.PanedWindow(orient=tk.HORIZONTAL)
 
         self._tile_manager = TileManager(self)
-        self._tile_manager.load_image(['C:/Projects/python/my_first_game/asserts/tiles_img.png',
-                                       'C:/projects/python/game/asserts/tiles_img.png'], (32, 32))
+        self._tile_manager.load_image('C:/Projects/python/my_first_game/asserts/tiles_img.png')
+        # 'C:/projects/python/game/asserts/tiles_img.png'
 
         self._explorer = self._init_explorer(self._panel)
         # self._map = MapBuilder(self,(10, 10), (32, 32))
@@ -43,7 +46,8 @@ class GameBuilder(tk.Tk):
         self.current_image_id = None
         self.current_image_pos = (0, 0)
 
-
+    def _on_select_file_image(self):
+        pass
 
     def _init_header_frame(self, master):
         self._header_frame = tk.Frame(master=master)

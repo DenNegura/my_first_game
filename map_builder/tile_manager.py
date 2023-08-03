@@ -4,6 +4,7 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 
+from tile_contructor import TileConfigurator
 from tiles_container import TilesContainer
 
 
@@ -14,7 +15,18 @@ class TileManager(ttk.Notebook):
         self._callback = None
         self._tile_containers = []
 
-    def load_image(self, path_list: tuple[str] | list[str], tile_size: tuple[int, int] | list[int, int]):
+    def load_image(self, image_path: str):
+        if os.path.isfile(image_path):
+            window = TileConfigurator(os.path.basename(image_path))
+            window.set_default_size((32, 32), True)
+            # title = os.path.basename(path)
+            # id = self._get_id_by_title(title)
+            # if id is None:
+            #     self._create_tab(path, title, tile_size)
+            # else:
+            #     self.select(id)
+
+    def load_image_old(self, path_list: tuple[str] | list[str], tile_size: tuple[int, int] | list[int, int]):
         for path in path_list:
             print(path)
             if os.path.isfile(path):
