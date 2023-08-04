@@ -28,8 +28,8 @@ class GameBuilder(tk.Tk):
         self._panel = tk.PanedWindow(orient=tk.HORIZONTAL)
 
         self._tile_manager = TileManager(self)
-        # self._tile_manager.load_image('C:/Projects/python/my_first_game/asserts/tiles_img.png')
-        self._tile_manager.load_image('C:/projects/python/game/asserts/tiles_img.png')
+        self._tile_manager.load_image(['C:/Projects/python/my_first_game/asserts/tiles_img.png'], (32, 32))
+        # self._tile_manager.load_image('C:/projects/python/game/asserts/tiles_img.png')
 
         self._explorer = self._init_explorer(self._panel)
         # self._map = MapBuilder(self,(10, 10), (32, 32))

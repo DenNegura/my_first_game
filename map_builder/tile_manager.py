@@ -15,11 +15,11 @@ class TileManager(ttk.Notebook):
         self._callback = None
         self._tile_containers = []
 
-    def load_image(self, image_path: str):
-        if os.path.isfile(image_path):
-            image = Image.open(image_path)
-            window = TileConfigurator(os.path.basename(image_path), image)
-            window.set_default_size((32, 32), True)
+    # def load_image(self, image_path: str):
+    #     if os.path.isfile(image_path):
+    #         image = Image.open(image_path)
+    #         window = TileConfigurator(os.path.basename(image_path), image)
+    #         window.set_default_size((32, 32), True)
             # title = os.path.basename(path)
             # id = self._get_id_by_title(title)
             # if id is None:
@@ -27,7 +27,7 @@ class TileManager(ttk.Notebook):
             # else:
             #     self.select(id)
 
-    def load_image_old(self, path_list: tuple[str] | list[str], tile_size: tuple[int, int] | list[int, int]):
+    def load_image(self, path_list: tuple[str] | list[str], tile_size: tuple[int, int] | list[int, int]):
         for path in path_list:
             print(path)
             if os.path.isfile(path):
@@ -44,7 +44,8 @@ class TileManager(ttk.Notebook):
                 return id
         return None
 
-    def _create_tab(self, image, title, tile_size):
+    def _create_tab(self, path, title, tile_size):
+        image = Image.open(path)
         container = TilesContainer(self, image, tile_size, self._on_select)
         container.pack(fill=tk.BOTH, expand=True)
         self.add(container, text=title)

@@ -13,4 +13,4 @@ class RegexEntry(ttk.Entry):
         self.configure(validatecommand=(self.register(self._validate), '%P'))
 
     def _validate(self, value):
-        return re.match(self._regex, value)
+        return re.match(self._regex, value) is not None

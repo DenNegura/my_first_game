@@ -1,26 +1,21 @@
 from tkinter import *
 from tkinter import ttk
 
+languages = ["Python", "JavaScript", "C#", "Java", "C++", "Rust", "Kotlin", "Swift",
+             "PHP", "Visual Basic.NET", "F#", "Ruby", "R", "Go", "C",
+             "T-SQL", "PL-SQL", "Typescript", "Assembly", "Fortran"]
+
 root = Tk()
 root.title("METANIT.COM")
 root.geometry("250x200")
 
-# выбранная тема
-selected_theme = StringVar()
-style = ttk.Style()
+languages_var = StringVar(value=languages)
+listbox = Listbox(listvariable=languages_var)
+listbox.pack(side=LEFT, fill=BOTH, expand=1)
 
+scrollbar = ttk.Scrollbar(orient="vertical", command=listbox.yview)
+scrollbar.pack(side=RIGHT, fill=Y)
 
-# изменение текущей темы
-def change_theme():
-    style.theme_use(selected_theme.get())
-
-
-ttk.Label(textvariable=selected_theme, font="Helvetica 13").pack(anchor=NW)
-
-for theme in style.theme_names():
-    ttk.Radiobutton(text=theme,
-                    value=theme,
-                    variable=selected_theme,
-                    command=change_theme).pack(anchor=NW)
+listbox["yscrollcommand"] = scrollbar.set
 
 root.mainloop()
