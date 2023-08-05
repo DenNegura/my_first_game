@@ -1,21 +1,25 @@
-from tkinter import *
+import tkinter as tk
 from tkinter import ttk
 
-languages = ["Python", "JavaScript", "C#", "Java", "C++", "Rust", "Kotlin", "Swift",
-             "PHP", "Visual Basic.NET", "F#", "Ruby", "R", "Go", "C",
-             "T-SQL", "PL-SQL", "Typescript", "Assembly", "Fortran"]
+root = tk.Tk()
 
-root = Tk()
-root.title("METANIT.COM")
-root.geometry("250x200")
+frame = ttk.Frame(root)
+frame.pack()
 
-languages_var = StringVar(value=languages)
-listbox = Listbox(listvariable=languages_var)
-listbox.pack(side=LEFT, fill=BOTH, expand=1)
+label1 = ttk.Label(frame, text="Label 1")
+label1.pack()
 
-scrollbar = ttk.Scrollbar(orient="vertical", command=listbox.yview)
-scrollbar.pack(side=RIGHT, fill=Y)
+label2 = ttk.Label(frame, text="Label 2")
+label2.pack()
 
-listbox["yscrollcommand"] = scrollbar.set
+button = ttk.Button(frame, text="Button")
+button.pack()
+
+# Получаем список дочерних элементов фрейма
+children = frame.winfo_children()
+
+# Выводим информацию о дочерних элементах
+for child in children:
+    print(child)
 
 root.mainloop()
