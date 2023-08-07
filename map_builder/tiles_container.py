@@ -23,6 +23,7 @@ class TilesContainer(ttk.Frame):
 
         self._crop_image()
         self._draw_image()
+        self.bind("<Configure>", self._resize)
 
     def _crop_image(self):
         for y in range(0, self._image.height, self._height):
@@ -39,5 +40,6 @@ class TilesContainer(ttk.Frame):
     def _on_click(self, event, tile):
         self._callback(tile)
 
-    def _on_mouse_wheel(self, event):
-        self._canvas.yview_scroll(-1 * (event.delta // 120), "units")
+    def _resize(self, event):
+        print(self._canvas.bbox(tk.ALL)[2])
+        # self.configure(width=self._canvas.bbox(tk.ALL)[2])
