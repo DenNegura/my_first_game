@@ -12,7 +12,7 @@ class ScrollFrame(ttk.Frame):
         self._canvas = tk.Canvas(self)
         self._inner_frame = ttk.Frame(self._canvas)
 
-        self._canvas.create_window((0, 0), window=self._inner_frame, anchor=tk.NW)
+        self._frame_id = self._canvas.create_window((0, 0), window=self._inner_frame, anchor=tk.NW)
         self._canvas.grid(row=0, column=0, sticky=tk.NSEW)
 
         if self._x_scroll:
@@ -58,7 +58,9 @@ class ScrollFrame(ttk.Frame):
             self._x_scroll_change_state()
         if self._y_scroll:
             self._y_scroll_change_status()
-
+        # if self._canvas.winfo_width() > self._inner_frame.winfo_width() or self._canvas.winfo_height() > self._inner_frame.winfo_height():
+        #     print("test")
+        #     self._canvas.itemconfig(self._frame_id, width=self._canvas.winfo_width(), height=self._canvas.winfo_height())
         region = self._canvas.bbox(tk.ALL)
         self._canvas.configure(scrollregion=region)
 
@@ -68,31 +70,8 @@ class ScrollFrame(ttk.Frame):
         else:
             self._canvas.yview_scroll(-1 * (event.delta // 120), "units")
 
-    def activate_scroll(self):
-        for child in self._inner_frame.winfo_children():
-            child.bind("<MouseWheel>", self._on_mouse_wheel)
+    def add(self, widget):
+        widget.bind("<MouseWheel>", self._on_mouse_wheel)
 
-    def get_frame(self):
+    def get_master(self):
         return self._inner_frame
-
-
-tk_app = tk.Tk()
-frame = ScrollFrame(tk_app)
-
-b = None
-image = None
-
-def add():
-    global image
-    # b.destroy()
-    image = tk.PhotoImage(file="C:/Projects/python/my_first_game/asserts/tiles_img.png")
-    tk.Label(frame.get_frame(), image=image).pack()
-    frame.activate_scroll()
-add()
-# b = ttk.Button(frame.get_frame(), text="add image", command=add)
-# b.pack()
-
-frame.activate_scroll()
-frame.pack(expand=True, fill=tk.BOTH)
-# frame.pack()
-tk_app.mainloop()

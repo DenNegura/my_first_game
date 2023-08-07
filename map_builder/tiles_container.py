@@ -3,6 +3,9 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 
+from ui.canvas.ScrollCanvas import ScrollCanvas
+from ui.frame.ScrollFrame import ScrollFrame
+
 
 class TilesContainer(ttk.Frame):
 
@@ -10,25 +13,16 @@ class TilesContainer(ttk.Frame):
         super().__init__(master, **kwargs)
         self._width, self._height = tile_size
         self._image = image
-        self._canvas = tk.Canvas(master=self, bg="white")
-        self._canvas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self._scroll_canvas = ScrollCanvas(master=self)
+        self._scroll_canvas.pack(fill=tk.BOTH, expand=True)
+        self._canvas = self._scroll_canvas.get_canvas()
+
         self._tiles = []
         self._callback = callback
         self.pack(fill=tk.BOTH, expand=True)
 
         self._crop_image()
         self._draw_image()
-        self._init_scrollbars()
-
-    def _init_scrollbars(self):
-        v_scrollbar = tk.Scrollbar(self, orient=tk.VERTICAL, command=self._canvas.yview)
-        v_scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-        self._canvas.configure(yscrollcommand=v_scrollbar.set, scrollregion=self._canvas.bbox("all"))
-        self._canvas.configure(width=self._image.width, height=self._image.height)
-
-        self._canvas.bind("<MouseWheel>", self._on_mouse_wheel)
-        self._canvas.bind("<Button-4>", self._on_mouse_wheel)
-        self._canvas.bind("<Button-5>", self._on_mouse_wheel)
 
     def _crop_image(self):
         for y in range(0, self._image.height, self._height):
