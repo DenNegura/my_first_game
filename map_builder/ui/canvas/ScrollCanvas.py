@@ -25,7 +25,8 @@ class ScrollCanvas(ttk.Frame):
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
         self.bind("<Configure>", self._resize)
-        self._canvas.bind("<MouseWheel>", self._on_mouse_wheel)
+        self._canvas.bind("<MouseWheel>", self._on_mouse_v_wheel)
+        self._canvas.bind("<Control-MouseWheel>", self._on_mouse_h_wheel)
 
     def _init_x_scroll(self):
         self._scroll_x = ttk.Scrollbar(self, orient=tk.HORIZONTAL)
@@ -40,8 +41,10 @@ class ScrollCanvas(ttk.Frame):
         self._scroll_y.grid(row=0, column=1, sticky=tk.NS)
 
     def _x_scroll_change_state(self):
+        size = self._canvas.bbox(tk.ALL)
         y_scroll_size = 20 if self._is_active_y_scroll else 0
-        if self.winfo_width() > self._canvas.bbox(tk.ALL)[2] + y_scroll_size:
+
+        if size is None or self.winfo_width() > size[2] + y_scroll_size:
             self._is_active_x_scroll = False
             self._scroll_x.grid_forget()
         else:
@@ -49,7 +52,8 @@ class ScrollCanvas(ttk.Frame):
             self._scroll_x.grid(row=1, column=0, sticky=tk.EW)
 
     def _y_scroll_change_status(self):
-        if self.winfo_height() > self._canvas.bbox(tk.ALL)[3]:
+        size = self._canvas.bbox(tk.ALL)
+        if size is None or self.winfo_height() > size[3]:
             self._is_active_y_scroll = False
             self._scroll_y.grid_forget()
         else:
@@ -64,11 +68,13 @@ class ScrollCanvas(ttk.Frame):
         region = self._canvas.bbox(tk.ALL)
         self._canvas.configure(scrollregion=region)
 
-    def _on_mouse_wheel(self, event):
-        if self._is_active_x_scroll and event.state == 4:    # ctrl
-            self._canvas.xview_scroll(-1 * (event.delta // 120), "units")
-        elif self._is_active_y_scroll:
+    def _on_mouse_v_wheel(self, event):
+        if self._is_active_y_scroll:
             self._canvas.yview_scroll(-1 * (event.delta // 120), "units")
+
+    def _on_mouse_h_wheel(self, event):
+        if self._is_active_x_scroll:
+            self._canvas.xview_scroll(-1 * (event.delta // 120), "units")
 
     def get_canvas(self):
         return self._canvas

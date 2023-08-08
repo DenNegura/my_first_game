@@ -3,11 +3,10 @@ from tkinter import filedialog, ttk
 
 from PIL import Image, ImageTk
 
-from file_explorer import FileExplorer
-from grid_controller import GridController
-from map_builder import MapBuilder
-from map_manager import MapManager
-from tile_manager import TileManager
+from map_builder.file_explorer import FileExplorer
+from map_builder.grid_controller import GridController
+from map_builder.map_manager import MapManager
+from map_builder.tile_manager import TileManager
 
 from settings import Settings
 # import sys
@@ -27,7 +26,7 @@ class GameBuilder(tk.Tk):
 
         self._panel = tk.PanedWindow(orient=tk.HORIZONTAL)
 
-        self._tile_manager = TileManager(self)
+        self._tile_manager = TileManager(self, self._on_select_tile)
         self._tile_manager.load_image(['C:/Projects/python/my_first_game/asserts/tiles_img.png'], (32, 32))
         # self._tile_manager.load_image('C:/projects/python/game/asserts/tiles_img.png')
 
@@ -38,7 +37,7 @@ class GameBuilder(tk.Tk):
         self._panel.add(self._map_window)
         self._panel.add(self._tile_manager)
 
-        self._panel.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
+        self._panel.pack(anchor=tk.CENTER, fill=tk.BOTH, expand=True)
 
 
         # Картинка, которую будем перемещать
@@ -58,6 +57,9 @@ class GameBuilder(tk.Tk):
         explorer.set_extensions((".png", ".jpg"))
         explorer.on_select(self._tile_manager.load_image)
         return explorer
+
+    def _on_select_tile(self, tile):
+        self._map_window.set_tile(tile)
 
     # def _load_image(self, file_path):
     #     #          self.image = Image.open(file_path)

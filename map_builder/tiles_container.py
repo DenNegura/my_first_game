@@ -3,8 +3,8 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 
-from ui.canvas.ScrollCanvas import ScrollCanvas
-from ui.frame.ScrollFrame import ScrollFrame
+from map_builder.ui.canvas.ScrollCanvas import ScrollCanvas
+from map_builder.ui.frame.ScrollFrame import ScrollFrame
 
 
 class TilesContainer(ttk.Frame):
@@ -19,7 +19,7 @@ class TilesContainer(ttk.Frame):
 
         self._tiles = []
         self._callback = callback
-        self.pack(fill=tk.BOTH, expand=True)
+        self.pack(fill=tk.X, expand=True)
 
         self._crop_image()
         self._draw_image()
@@ -36,10 +36,13 @@ class TilesContainer(ttk.Frame):
         for x, y, tile, image_tile in self._tiles:
             tile_id = self._canvas.create_image(x, y, anchor=tk.NW, image=image_tile)
             self._canvas.tag_bind(tile_id, "<Button-1>", lambda event, _tile=tile: self._on_click(event, _tile))
+        print(self._canvas.bbox(tk.ALL)[2] + 100)
+        self.configure(width=self._canvas.bbox(tk.ALL)[2] + 100)
 
     def _on_click(self, event, tile):
         self._callback(tile)
 
     def _resize(self, event):
-        print(self._canvas.bbox(tk.ALL)[2])
+        pass
+        # print(self._canvas.bbox(tk.ALL)[2])
         # self.configure(width=self._canvas.bbox(tk.ALL)[2])

@@ -4,15 +4,15 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 
-from tile_contructor import TileConfigurator
-from tiles_container import TilesContainer
+from map_builder.tile_contructor import TileConfigurator
+from map_builder.tiles_container import TilesContainer
 
 
 class TileManager(ttk.Notebook):
 
-    def __init__(self, master, **kwargs):
+    def __init__(self, master, on_select, **kwargs):
         super().__init__(master, **kwargs)
-        self._callback = None
+        self._callback = on_select
         self._tile_containers = []
 
     # def load_image(self, image_path: str):
@@ -46,11 +46,8 @@ class TileManager(ttk.Notebook):
 
     def _create_tab(self, path, title, tile_size):
         image = Image.open(path)
-        container = TilesContainer(self, image, tile_size, self._on_select)
+        container = TilesContainer(self, image, tile_size, self._callback)
         container.pack(fill=tk.BOTH, expand=True)
         self.add(container, text=title)
         self._tile_containers.append(container)
         self.select(self.index("end") - 1)
-
-    def _on_select(self, tile):
-        pass

@@ -3,7 +3,7 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 
-from ui.input.spinbox import Spinbox
+from map_builder.ui.input.spinbox import Spinbox
 
 
 class TileConfigurator(tk.Toplevel):
