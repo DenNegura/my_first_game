@@ -38,9 +38,8 @@ class MapCanvas(ttk.Frame):
     def _on_draw_image(self, event):
         if self._photo_tile:
             x, y = self._get_rectangle_coord(event.x, event.y)
-            self._canvas.create_image(x, y, anchor=tk.NW, image=self._photo_tile)
-        print(self._tile)
-        print(event)
+            if 0 <= x < self._map_size[0] * self._tile_size[0] and 0 <= y < self._map_size[1] * self._tile_size[1]:
+                self._canvas.create_image(x, y, anchor=tk.NW, image=self._photo_tile)
 
     def _get_rectangle_coord(self, x: int, y: int) -> tuple[int, int]:
         x_size, y_size = self._tile_size
