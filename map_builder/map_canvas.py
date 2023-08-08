@@ -22,6 +22,7 @@ class MapCanvas(ttk.Frame):
         self._create_grid()
 
         self._canvas.bind("<Button-1>", self._on_draw_image)
+        self._canvas.bind("<B1-Motion>", self._on_draw_image)
 
     def _create_grid(self):
         step_y, step_x = self._tile_size
@@ -36,12 +37,14 @@ class MapCanvas(ttk.Frame):
 
     def _on_draw_image(self, event):
         if self._photo_tile:
-            self._canvas.create_image(event.x, event.y, anchor=tk.NW, image=self._photo_tile)
+            x, y = self._get_rectangle_coord(event.x, event.y)
+            self._canvas.create_image(x, y, anchor=tk.NW, image=self._photo_tile)
         print(self._tile)
         print(event)
 
-    def _get_rectangle(self, x: int, y: int) -> tuple[int, int]:
-        pass
+    def _get_rectangle_coord(self, x: int, y: int) -> tuple[int, int]:
+        x_size, y_size = self._tile_size
+        return x // x_size * x_size, y // y_size * y_size
 
     def set_tile(self, tile):
         self._tile = tile
