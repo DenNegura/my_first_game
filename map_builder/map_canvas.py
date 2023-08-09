@@ -3,6 +3,7 @@ from tkinter import ttk
 
 from PIL import ImageTk
 
+from map_builder.Map import Map
 from map_builder.ui.canvas.ScrollCanvas import ScrollCanvas
 
 
@@ -20,6 +21,7 @@ class MapCanvas(ttk.Frame):
         self._map_size = map_size
         self._tile_size = tile_size
         self._create_grid()
+        self._map = Map()
 
         self._canvas.bind("<Button-1>", self._on_draw_image)
         self._canvas.bind("<B1-Motion>", self._on_draw_image)
@@ -40,6 +42,7 @@ class MapCanvas(ttk.Frame):
             x, y = self._get_rectangle_coord(event.x, event.y)
             if 0 <= x < self._map_size[0] * self._tile_size[0] and 0 <= y < self._map_size[1] * self._tile_size[1]:
                 self._canvas.create_image(x, y, anchor=tk.NW, image=self._photo_tile)
+                self._map.set(x, y, self._photo_tile)
 
     def _get_rectangle_coord(self, x: int, y: int) -> tuple[int, int]:
         x_size, y_size = self._tile_size
