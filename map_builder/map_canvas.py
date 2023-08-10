@@ -23,6 +23,8 @@ class MapCanvas(ttk.Frame):
         self._create_grid()
         self._map = Map()
 
+        self._canvas.bind("<Configure>", self._resize)
+        self._canvas.bind_all("<Control-z>", self._undo)
         self._canvas.bind("<Button-1>", self._on_draw_image)
         self._canvas.bind("<B1-Motion>", self._on_draw_image)
 
@@ -51,3 +53,10 @@ class MapCanvas(ttk.Frame):
     def set_tile(self, tile):
         self._tile = tile
         self._photo_tile = ImageTk.PhotoImage(self._tile)
+
+    def _resize(self, event):
+        print(event)
+        print(self._scroll_frame.winfo_width())
+
+    def _undo(self, event):
+        self._map.undo()
