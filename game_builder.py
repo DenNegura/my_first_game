@@ -1,17 +1,11 @@
 import tkinter as tk
-from tkinter import filedialog, ttk
 
-from PIL import Image, ImageTk
-
-from map_builder.file_explorer import FileExplorer
-from map_builder.grid_controller import GridController
-from map_builder.map_manager import MapManager
-from map_builder.tile_manager import TileManager
+from Context import Context, ContextID
+from component.file.FileExplorer import FileExplorer
+from component.map.MapManager import MapManager
+from component.tile.TileBook import TileBook
 
 from settings import Settings
-# import sys
-#
-# sys.path.append("./ui/input/regex")
 
 
 class GameBuilder(tk.Tk):
@@ -26,10 +20,11 @@ class GameBuilder(tk.Tk):
 
         self._panel = tk.PanedWindow(orient=tk.HORIZONTAL)
 
-        self._tile_manager = TileManager(self, self._on_select_tile)
-        self._tile_manager.load_image(['C:/projects/python/game/asserts/tiles_img.png'], (32, 32))
+        self._tile_manager = TileBook(self)
+        # self._tile_manager.load_image(['C:/Projects/python/my_first_game/asserts/tiles_img.png'])
         # self._tile_manager.load_image('C:/Projects/python/my_first_game/asserts/tiles_img.png')
         # self._tile_manager.load_image('C:/projects/python/game/asserts/tiles_img.png')
+        Context().send('C:/Projects/python/my_first_game/asserts/tiles_img.png', ContextID.SPRITE)
 
         self._explorer = self._init_explorer(self._panel)
         # self._map = MapBuilder(self,(10, 10), (32, 32))
@@ -37,6 +32,7 @@ class GameBuilder(tk.Tk):
         self._panel.add(self._explorer)
         self._panel.add(self._map_window)
         self._panel.add(self._tile_manager)
+
 
         self._panel.pack(anchor=tk.CENTER, fill=tk.BOTH, expand=True)
 
@@ -56,11 +52,7 @@ class GameBuilder(tk.Tk):
     def _init_explorer(self, master) -> FileExplorer:
         explorer = FileExplorer(master=master, width=200)
         explorer.set_extensions((".png", ".jpg"))
-        explorer.on_select(self._tile_manager.load_image)
         return explorer
-
-    def _on_select_tile(self, tile):
-        self._map_window.set_tile(tile)
 
     # def _load_image(self, file_path):
     #     #          self.image = Image.open(file_path)
@@ -152,5 +144,5 @@ class GameBuilder(tk.Tk):
     #         self.images_to_merge = []
 
 
-builder = GameBuilder()
-builder.mainloop()
+# builder = GameBuilder()
+# builder.mainloop()

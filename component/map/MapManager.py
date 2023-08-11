@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
-from map_builder.view.MapGeneratorView import MapGeneratorView
-from map_builder.map_canvas import MapCanvas
+from view.MapView import MapView
+from component.map.map_canvas import MapCanvas
 
 
 class MapManager(ttk.Notebook):
@@ -11,7 +11,7 @@ class MapManager(ttk.Notebook):
         super().__init__(master, **kwargs)
 
         self._maps = []
-        self._map_factory = MapGeneratorView(self)
+        self._map_factory = MapView(self)
         self._map_factory.listen(self._on_create_map)
         self._map_factory.pack(expand=True)
         self.add(self._map_factory, text="Home")
@@ -26,7 +26,3 @@ class MapManager(ttk.Notebook):
         self.add(map, text="Map")
         self._maps.append(map)
         self.select(len(self._maps))
-
-    def set_tile(self, tile):
-        for map in self._maps:
-            map.set_tile(tile)

@@ -1,5 +1,4 @@
 from settings import Settings
-from sprite_sheet import SpriteSheet
 
 
 class Tile:

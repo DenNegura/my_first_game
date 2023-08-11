@@ -1,13 +1,9 @@
-import random
-
 import pygame
 
-import direction
-import state
-from Key import KeySet
-from actor import Actor
+from game import direction, state
+from game.actor import Actor
 from settings import Settings
-from sprite_sheet import SpriteSheet
+from game.sprite_sheet import SpriteSheet
 
 
 class Player(Actor):

@@ -2,11 +2,11 @@ import tkinter as tk
 from tkinter import ttk
 
 # from ..ui.canvas.ScrollCanvas import ScrollCanvas
-from map_builder.ui.input.spinbox import Spinbox
-from map_builder.view.View import View
+from ui.input.spinbox import Spinbox
+from view.View import View
 
 
-class MapGeneratorView(View):
+class MapView(View):
     _NUMBER_FROM = 1.0
 
     _NUMBER_TO = 100.0

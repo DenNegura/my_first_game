@@ -2,6 +2,8 @@ import os
 import tkinter as tk
 from tkinter import filedialog, ttk
 
+from Context import Context
+
 
 class FileExplorer(ttk.Frame):
 
@@ -12,6 +14,7 @@ class FileExplorer(ttk.Frame):
         self._button_select_dir.pack(side=tk.TOP, fill=tk.X, expand=False, pady=5)
         self._callback_fun = None
         self._current_root_dir = None
+        self._context = Context()
         self._accept_extensions = extensions
         self._init_explorer()
 
@@ -49,14 +52,9 @@ class FileExplorer(ttk.Frame):
             _read_inner_dir(directory_path)
 
     def _on_select_item(self, event):
-
-        if self._callback_fun is not None:
-            selected_files = []
-            for selected_item in self._tree.selection():
-                if os.path.isfile(selected_item):
-                    selected_files.append(selected_item)
-            if selected_files:
-                self._callback_fun(selected_files, (32, 32))
+        for selected_item in self._tree.selection():
+            if os.path.isfile(selected_item):
+                self._context.send(selected_item, Context.SPRITE)
 
     def on_select(self, callback_fun):
         self._callback_fun = callback_fun

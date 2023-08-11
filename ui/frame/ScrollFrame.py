@@ -1,33 +1,19 @@
 import tkinter as tk
 from tkinter import ttk
 
+from ui.canvas.ScrollCanvas import ScrollCanvas
 
-class ScrollFrame(ttk.Frame):
+
+class ScrollFrame(ScrollCanvas):
 
     def __init__(self, master, x_scroll: bool = True, y_scroll: bool = True, **kwargs):
-        super().__init__(master, **kwargs)
-        self._x_scroll = x_scroll
-        self._y_scroll = y_scroll
+        super().__init__(master, x_scroll, y_scroll, **kwargs)
 
-        self._canvas = tk.Canvas(self)
-        self._inner_frame = ttk.Frame(self._canvas)
+
+        self._inner_frame = ttk.Frame(self.get_canvas())
 
         self._frame_id = self._canvas.create_window((0, 0), window=self._inner_frame, anchor=tk.NW)
-        self._canvas.grid(row=0, column=0, sticky=tk.NSEW)
 
-        if self._x_scroll:
-            self._init_x_scroll()
-            self._is_active_x_scroll = True
-        if self._y_scroll:
-            self._init_y_scroll()
-            self._is_active_y_scroll = True
-
-        self.rowconfigure(0, weight=1)
-        self.columnconfigure(0, weight=1)
-        self.bind("<Configure>", self._resize)
-        self._inner_frame.bind("<Configure>", self._resize)
-        self._inner_frame.bind("<MouseWheel>", self._on_mouse_wheel)
-        self._canvas.bind("<MouseWheel>", self._on_mouse_wheel)
 
     def _init_x_scroll(self):
         self._scroll_x = ttk.Scrollbar(self, orient=tk.HORIZONTAL)
@@ -58,9 +44,6 @@ class ScrollFrame(ttk.Frame):
             self._x_scroll_change_state()
         if self._y_scroll:
             self._y_scroll_change_status()
-        # if self._canvas.winfo_width() > self._inner_frame.winfo_width() or self._canvas.winfo_height() > self._inner_frame.winfo_height():
-        #     print("test")
-        #     self._canvas.itemconfig(self._frame_id, width=self._canvas.winfo_width(), height=self._canvas.winfo_height())
         region = self._canvas.bbox(tk.ALL)
         self._canvas.configure(scrollregion=region)
 

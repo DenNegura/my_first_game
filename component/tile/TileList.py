@@ -3,13 +3,13 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 
-from map_builder.ui.canvas.ScrollCanvas import ScrollCanvas
-from map_builder.ui.frame.ScrollFrame import ScrollFrame
+from Context import Context
+from ui.canvas.ScrollCanvas import ScrollCanvas
 
 
-class TilesContainer(ttk.Frame):
+class TileList(ttk.Frame):
 
-    def __init__(self, master, image: Image, tile_size: tuple[int, int] | list[int, int], callback, **kwargs):
+    def __init__(self, master, image: Image, tile_size: tuple[int, int] | list[int, int], **kwargs):
         super().__init__(master, **kwargs)
         self._width, self._height = tile_size
         self._image = image
@@ -18,7 +18,7 @@ class TilesContainer(ttk.Frame):
         self._canvas = self._scroll_canvas.get_canvas()
 
         self._tiles = []
-        self._callback = callback
+        self._context = Context()
         self.pack(fill=tk.X, expand=True)
 
         self._crop_image()
@@ -35,12 +35,12 @@ class TilesContainer(ttk.Frame):
     def _draw_image(self):
         for x, y, tile, image_tile in self._tiles:
             tile_id = self._canvas.create_image(x, y, anchor=tk.NW, image=image_tile)
-            self._canvas.tag_bind(tile_id, "<Button-1>", lambda event, _tile=tile: self._on_click(event, _tile))
+            self._canvas.tag_bind(tile_id, "<Button-1>", lambda event, _tile=tile: self._on_change_tile(event, _tile))
         print(self._canvas.bbox(tk.ALL)[2] + 100)
         self.configure(width=self._canvas.bbox(tk.ALL)[2] + 100)
 
-    def _on_click(self, event, tile):
-        self._callback(tile)
+    def _on_change_tile(self, event, tile):
+        self._context.send(tile, Context.TILE)
 
     def _resize(self, event):
         pass

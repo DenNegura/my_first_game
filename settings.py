@@ -1,13 +1,15 @@
 import json
+import os
 from json import JSONDecodeError
 
+from SingletonMeta import SingletonMeta
 from exceptions.exceptions import ConfigNotFoundException, ConfigJSONException, ConfigKeyException
 
 
-class Settings:
+class Settings(metaclass=SingletonMeta):
     _instance = None
 
-    CONFIG_PATH = "./config.json"
+    CONFIG_PATH = "config.json"
 
     LINK = "@"
 
@@ -38,13 +40,10 @@ class Settings:
     class KeySet:
         KEY = "key"
 
-    def __new__(cls, *args, **kwargs):
-        if cls._instance is None:
-            cls._instance = super().__new__(cls)
-        return cls._instance
-
     def __init__(self):
-        self._open_config(self.CONFIG_PATH)
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        config_path = os.path.join(script_dir, self.CONFIG_PATH)
+        self._open_config(config_path)
 
     def _open_config(self, path: str) -> None:
         try:
