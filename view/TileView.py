@@ -38,7 +38,7 @@ class TileView(View):
         ttk.Label(self._inner_frame, text="points") \
             .grid(row=1, column=2, padx=5, pady=5)
 
-        ttk.Button(self, text="Confirm", command=self._on_confirm)\
+        ttk.Button(self, text="Confirm", command=self._on_confirm) \
             .pack(side=tk.TOP, fill=tk.X, padx=5, pady=5)
 
     def set_default_size(self, default_size):
@@ -59,8 +59,9 @@ class TileView(View):
             self._width.set(map_size[0])
             self._height.set(map_size[1])
 
-    def _on_confirm(self, event):
-        if self._callback:
-            self._dict_values["tile_width"] = int(self._width.get())
-            self._dict_values["tile_height"] = int(self._width.get())
-            self._callback(self._dict_values)
+    def _on_confirm(self):
+        if self._width.get() and self._height.get():
+            if self._callback:
+                self._dict_values["tile_width"] = int(self._width.get())
+                self._dict_values["tile_height"] = int(self._width.get())
+                self._callback(self._dict_values)

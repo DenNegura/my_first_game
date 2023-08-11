@@ -3,7 +3,7 @@ from tkinter import ttk
 
 from PIL import Image, ImageTk
 
-from Context import Context
+from Context import Context, ContextID
 from ui.canvas.ScrollCanvas import ScrollCanvas
 
 
@@ -40,7 +40,7 @@ class TileList(ttk.Frame):
         self.configure(width=self._canvas.bbox(tk.ALL)[2] + 100)
 
     def _on_change_tile(self, event, tile):
-        self._context.send(tile, Context.TILE)
+        self._context.send(tile, ContextID.TILE)
 
     def _resize(self, event):
         pass

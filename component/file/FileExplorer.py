@@ -2,7 +2,7 @@ import os
 import tkinter as tk
 from tkinter import filedialog, ttk
 
-from Context import Context
+from Context import Context, ContextID
 
 
 class FileExplorer(ttk.Frame):
@@ -54,7 +54,7 @@ class FileExplorer(ttk.Frame):
     def _on_select_item(self, event):
         for selected_item in self._tree.selection():
             if os.path.isfile(selected_item):
-                self._context.send(selected_item, Context.SPRITE)
+                self._context.send(selected_item, ContextID.SPRITE)
 
     def on_select(self, callback_fun):
         self._callback_fun = callback_fun
